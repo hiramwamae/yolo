@@ -11,24 +11,24 @@
 services:
 
   #Builds the frontend Docker image and creates the frontend microservice
-  hiram-wamae-client:
-    image: hiramwamae/hiram-wamae-client:v1.0.0
+  hiram-yolo-client:
+    image: hiramwamae/hiram-yolo-client:v1.0.0
     build: ./client
-    container_name: hiram-wamae-client
+    container_name: hiram-yolo-client
     stdin_open: true
     tty: true
     ports:
       - "3000:3000"
     depends_on: 
-      - hiram-wamae-backend
+      - hiram-yolo-backend
     networks:
       - app-net
 
   #Builds the backend Docker image and creates the backend microservice
-  hiram-wamae-backend:
-    image: hiramwamae/hiram-wamae-backend:v1.0.0
+  hiram-yolo-backend:
+    image: hiramwamae/hiram-yolo-backend:v1.0.0
     build: ./backend
-    container_name: hiram-wamae-backend
+    container_name: hiram-yolo-backend
     stdin_open: true
     tty: true
     restart: always
