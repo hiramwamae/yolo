@@ -1,26 +1,29 @@
-# Set base image
-FROM node:16-alpine3.16
+# Use an official Node runtime as a parent image
+FROM node:14 AS build
 
-# Set the working directory
-WORKDIR /backend
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the container
+# Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
-# Install dependencies, prune dev dependencies, and clear cache in a single layer
-RUN npm install --production && \
-    npm prune --production && \
-    npm cache clean --force && \
-    rm -rf /tmp/* /root/.npm /usr/share/man /var/cache/apk/*
+# Install application dependencies
+RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the application code to the container
 COPY . .
 
-# Set the environment variable for the app
-ENV NODE_ENV=production
+#Add multi-stage build
+FROM alpine:3.16.7
 
-# Expose the port used by the app
+WORKDIR /app
+
+RUN apk update && apk add --update nodejs
+
+COPY --from=build /usr/src/app /app
+
+# Expose the port the app runs on
 EXPOSE 5000
 
-# Start the application
-CMD ["npm", "start"]
+# Define the command to run your app
+CMD ["node", "server.js"]

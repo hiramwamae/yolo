@@ -1,46 +1,28 @@
-# Build stage
-FROM node:16-alpine3.16 as build-stage
+# Use an official Node runtime as a parent image
+FROM node:14-slim AS build
 
-# Set the working directory inside the container
-WORKDIR /client
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
-# Install only production dependencies and clean up the cache
-RUN npm install --production && \
-    npm cache clean --force && \
-    rm -rf /tmp/*
+# Install application dependencies
+RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the application code to the container
 COPY . .
 
-# Build the application
-RUN npm run build
+FROM alpine:3.16.7
 
-# Production stage
-FROM node:16-alpine3.16 as production-stage
+WORKDIR /app
 
-# Set the working directory
-WORKDIR /client
+RUN apk update && apk add npm
 
-# Install only the minimal dependencies for the production stage
-COPY --from=build-stage /client/package*.json ./
+COPY --from=build /usr/src/app /app
 
-# Install only production dependencies
-RUN npm install --production && \
-    npm prune --production && \
-    rm -rf /root/.npm && \
-    rm -rf /tmp/*
-
-# Copy the build files from the build stage
-COPY --from=build-stage /client/build ./build
-
-# Set environment to production
-ENV NODE_ENV=production
-
-# Expose the port used by the app
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
+# Define the command to run your app
 CMD ["npm", "start"]
