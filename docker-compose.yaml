@@ -41,7 +41,7 @@ services:
 
   #Creates the database microservice
   app-ip-mongo:
-    image: mongo
+    image: hiramwamae/hiram-yolo-mongo:v1.0.2
     container_name: app-mongo
     ports:
       - "27017:27017"

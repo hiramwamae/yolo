@@ -4,7 +4,7 @@
  Used 
  1. Client: 'node:16-alpine3.16'
  2. Backend: 'node:16-alpine3.16'
- 3.Mongo : `mongo:6.0 `
+ 3.Mongo : 'mongo'
        
 
 ## 2. Dockerfile directives used in the creation and running of each container.
@@ -19,40 +19,40 @@ FROM node:16-alpine3.16 as build-stage
 # Set the working directory inside the container
 WORKDIR /client
 
+# Install necessary build tools for Alpine
+RUN apk add --no-cache bash g++ make python3
+
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies and clears the npm cache and removes any temporary files
-RUN npm install --only=production && \
-    npm cache clean --force && \
-    rm -rf /tmp/*
+# Install all dependencies
+RUN npm install && npm cache clean --force && rm -rf /tmp/*
 
-# Copy the rest of the application code
+# Copy the rest of the application code, including the public directory
 COPY . .
 
-# Build the application and  remove development dependencies
-RUN npm run build && \
-    npm prune --production
+# Build the React app
+RUN npm run build
 
 # Production stage
 FROM node:16-alpine3.16 as production-stage
 
 WORKDIR /client
 
-# Copy only the necessary files from the build stage
+# Copy the build artifacts and the public directory from the build stage
 COPY --from=build-stage /client/build ./build
 COPY --from=build-stage /client/public ./public
 COPY --from=build-stage /client/src ./src
 COPY --from=build-stage /client/package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production && npm prune --production && npm cache clean --force && rm -rf /tmp/*
 
 # Set the environment variable for the app
 ENV NODE_ENV=production
 
 # Expose the port used by the app
 EXPOSE 3000
-
-# Prune the node_modules directory to remove development dependencies and clears the npm cache and removes any temporary files
-
 
 # Start the application
 CMD ["npm", "start"]
@@ -148,24 +148,16 @@ To achieve the task the following git workflow was used:
 1. Fork the repository from the original repository.
 2. Clone the repo: `git@github.com:hiramwamae/yolo.git`
 3. Rename existing dockerfiles and create new ones. Git ignore old dockerfiles
-4. Added Dockerfile for the client to the repo:
-`git add client/Dockerfile`
-5. Add Dockerfile for the backend to the repo:
-`git add backend/dockerfile`
-6. Committed the changes:
-`git commit -m "Added Dockerfiles"`
-7. Added docker-compose file to the repo:
-`git add docker-compose.yml`
-8. Committed the changes:
-`git commit -m "Added docker-compose file"`
-9. Pushed the files to github:
-`git push `
-10. Built the client and backend images:
-`docker compose build`
-11. Pushed the built imags to docker registry:
-`docker compose push`
-12. Deployed the containers using docker compose:
-`docker compose up`
+4. Updated client dockerfile
+5. Updated backend dockerfile
+6. Updated docker-compose.yaml
+7. Build images
+8. Updated dockerfile to fix image sizes
+9. Encountered 'exited with code 127 client exited'
+10. Rebuilt the images with no cache
+11. Pushed the images to dockerhub
+12. Updated explanation.md file
+13. Capture dockerhub image
+14. Replace image.png
 
-13. Updated explanation.md file and modified it as the commit messages in the repo will explain.
 
