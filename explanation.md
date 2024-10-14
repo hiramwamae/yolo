@@ -1,13 +1,14 @@
 ## 1. Choice of Base Image
- The base image used to build the containers is `node:16-alpine3.16`. It is derived from the Alpine Linux distribution, making it lightweight and compact. 
+ The base image used to build both frontend and backend containers is 'node:16-alpine3.16'. It is derived from the Alpine Linux distribution, making it lightweight and compact. Using Alpine Linux means fewer packages are installed by default, reducing the attack surface and improving security. Using node:16 also provides stability and security for the application.
+ 
  Used 
- 1. Client:`node:16-alpine3.16`
- 2. Backend: `node:16-alpine3.16`
+ 1. Client: 'node:16-alpine3.16'
+ 2. Backend: 'node:16-alpine3.16'
  3.Mongo : `mongo:6.0 `
        
 
 ## 2. Dockerfile directives used in the creation and running of each container.
- I used two Dockerfiles. One for the Client and the other one for the Backend.
+Two Dockerfiles were used. One for the Client and the other one for the Backend.
 
 **Client Dockerfile**
 
@@ -145,8 +146,8 @@ This volume, mongodb_data, is designated for storing MongoDB data. It ensures th
 To achieve the task the following git workflow was used:
 
 1. Fork the repository from the original repository.
-2. Clone the repo: `git@github.com:Maubinyaachi/yolo-Microservice.git`
-3. Create a .gitignore file to exclude unnecessary     files and directories from version control.
+2. Clone the repo: `git@github.com:hiramwamae/yolo.git`
+3. Rename existing dockerfiles and create new ones. Git ignore old dockerfiles
 4. Added Dockerfile for the client to the repo:
 `git add client/Dockerfile`
 5. Add Dockerfile for the backend to the repo:
@@ -166,5 +167,5 @@ To achieve the task the following git workflow was used:
 12. Deployed the containers using docker compose:
 `docker compose up`
 
-13. Created explanation.md file and modified it as the commit messages in the repo will explain.
+13. Updated explanation.md file and modified it as the commit messages in the repo will explain.
 
