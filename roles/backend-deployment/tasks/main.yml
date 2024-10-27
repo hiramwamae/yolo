@@ -3,22 +3,23 @@
 
 - name: Build backend Docker image
   docker_image:
-    path: "{{ backend_build_path }}"   # Ensure this points to the correct directory
-    name: "{{ backend_image }}"         # The name of the image
-    tag: "v1.0.2"                       # Tag for the image
+    path: "{{ backend_build_path }}"
+    name: "{{ backend_image }}"
+    tag: "v1.0.2"
   register: backend_image_result
 
 - name: Run backend container
   docker_container:
-    name: "{{ backend_container_name }}" 
-    image: "{{ backend_image }}:v1.0.2"  # Image with its tag
+    name: "{{ backend_container_name }}"
+    image: "{{ backend_image }}:v1.0.2"
     state: started
     restart_policy: always
-    published_ports: "{{ backend_ports }}"  # Ensure this variable is defined
+    published_ports: "{{ backend_ports }}"
     tty: true
     networks:
-      - name: "{{ backend_network }}"      # Network to connect the container
+      - name: "{{ backend_network }}"
   when: backend_image_result.changed
+
 
 
 

@@ -1,15 +1,22 @@
 ---
-- name: Build frontend image and start container
+# roles/frontend/tasks/main.yml
+
+- name: Build frontend Docker image
+  docker_image:
+    path: "{{ frontend_build_path }}"
+    name: "{{ frontend_image }}"
+    tag: "v1.0.2"
+  register: frontend_image_result
+
+- name: Run frontend container
   docker_container:
-    name: "{{ client_container_name }}"
-    image: "{{ client_image }}"
-    build:
-      path: "{{ client_build_path }}"
-    ports:
-      - "{{ client_port }}"
-    networks:
-      - name: app-net
-    depends_on:
-      - hiram-yolo-backend
+    name: "{{ frontend_container_name }}"
+    image: "{{ frontend_image }}:v1.0.2"
+    state: started
+    restart_policy: always
+    published_ports: "{{ frontend_ports }}"
     tty: true
-    stdin_open: true
+    networks:
+      - name: "{{ frontend_network }}"
+  when: frontend_image_result.changed
+

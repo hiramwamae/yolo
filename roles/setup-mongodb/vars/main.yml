@@ -1,9 +1,13 @@
 ---
+# roles/mongo/vars/main.yml
+
 mongo_image: "mongo"
 mongo_container_name: "app-mongo"
-mongo_port: "27017:27017"
-mongo_data_volume: "app-mongo-data"
-mongo_data_path: "/data/db"
+mongo_ports:
+  - "27017:27017"
+mongo_network: "app-net"
+mongo_volume: "app-mongo-data"  # This should be defined in your docker-compose if needed
+
 
 
 #mongo_container_name: app_mongo

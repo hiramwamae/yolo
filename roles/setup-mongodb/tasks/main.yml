@@ -1,14 +1,17 @@
 ---
-- name: Create MongoDB container with volume
+# roles/mongo/tasks/main.yml
+
+- name: Run MongoDB container
   docker_container:
     name: "{{ mongo_container_name }}"
     image: "{{ mongo_image }}"
-    ports:
-      - "{{ mongo_port }}"
-    networks:
-      - name: app-net
+    state: started
+    published_ports: "{{ mongo_ports }}"
     volumes:
-      - "{{ mongo_data_volume }}:{{ mongo_data_path }}"
+      - "{{ mongo_volume }}:/data/db"
+    networks:
+      - name: "{{ mongo_network }}"
+
 
 
 #- name: Run MongoDB Container

@@ -1,5 +1,11 @@
 ---
-- name: Create Docker volume for MongoDB data persistence
+- name: Create Docker network
+  docker_network:
+    name: "app-net"
+    state: present
+
+- name: Create Docker volume
   docker_volume:
-    name: "{{ volume_name }}"
-    driver: "{{ volume_driver }}"
+    name: "app-mongo-data"
+    state: present
+
