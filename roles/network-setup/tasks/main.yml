@@ -1,0 +1,5 @@
+---
+- name: Create Docker volume for MongoDB data persistence
+  docker_volume:
+    name: "{{ volume_name }}"
+    driver: "{{ volume_driver }}"
