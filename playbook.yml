@@ -17,6 +17,18 @@
         state: present
         update_cache: yes
 
+    - name: Upgrade Docker
+      apt:
+        name: docker.io
+        state: latest
+        update_cache: yes
+
+    - name: Upgrade Docker Compose
+      apt:
+        name: docker-compose
+        state: latest
+        update_cache: yes
+
     - name: Start Docker service
       systemd:
         name: docker
@@ -30,8 +42,14 @@
         version: master  # Change to the master branch git
         force: yes
 
+    - name: Validate docker-compose.yaml syntax
+      command: sudo docker-compose -f docker-compose.yaml config
+      args:
+        chdir: "{{ project_dir }}"
+
+
     - name: Build and start containers with Docker Compose
-      command: docker-compose up -d --build #docker-compose -f docker-compose.yaml up -d --build
+      command: sudo docker-compose up -d --build #docker-compose -f docker-compose.yaml up -d --build
       args:
         chdir: "{{ project_dir }}"
 
