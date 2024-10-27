@@ -2,8 +2,35 @@
 - name: Ansible playbook to dockerize and run yolo e-commerce app using ansible
   hosts: all
   become: true
-  roles: 
-    - frontend-deployment
-    - setup-mongodb   
-    - backend-deployment
+
+   vars:
+    repo_url: "https://github.com/yourusername/hiramwamae/yolo.git"  # Replace with your Git repo URL
+    project_dir: "/home/vagrant/yolo.git"  # Replace with your desired directory
+
+  tasks:
+    - name: Install necessary packages
+      apt:
+        name: 
+          - git
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Clone Git repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ project_dir }}"
+        version: master  # Change to the master branch 
+        force: yes
+  #roles: 
+  #  - frontend-deployment
+  #  - setup-mongodb   
+  #  - backend-deployment
     
