@@ -30,16 +30,16 @@
         version: master  # Change to the master branch git
         force: yes
 
-  #  - name: Build and start containers with Docker Compose
-  #    command: docker-compose -f docker-compose.yaml up -d --build #docker-compose up -d --build
-  #    args:
-  #      chdir: "{{ project_dir }}"
+    - name: Build and start containers with Docker Compose
+      command: docker-compose -f docker-compose.yaml up -d --build #docker-compose up -d --build
+      args:
+        chdir: "{{ project_dir }}"
 
-  #  - name: Verify that containers are running
-   #   command: docker ps
+    - name: Verify that containers are running
+      command: docker ps
 
-  roles: 
-    - frontend-deployment
-    - setup-mongodb   
-    - backend-deployment
+  #roles: 
+  #  - frontend-deployment
+  #  - setup-mongodb   
+  #  - backend-deployment
     
