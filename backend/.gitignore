@@ -27,3 +27,6 @@ yarn-error.log*
 //Ignore Old Dockerfiles
 Dockerfile_old
 dockerfile
+
+//Ignore old docker compose files
+ docker-compose.yml
