@@ -4,18 +4,26 @@
   become: true
 
   vars:
-    repo_url: "https://github.com/hiramwamae/yolo.git"  #Git clone URL
-    project_dir: "/home/vagrant/yolo"  # Project Directory in VM
+    repo_url: "https://github.com/hiramwamae/yolo.git"  # Git clone URL
+    project_dir: "/home/vagrant/yolo"  # Project directory in VM
 
   tasks:
-    - name: Install necessary packages
+    - name: Remove older Docker packages
       apt:
-        name: 
-          - git
+        name:
+          - docker
           - docker.io
-          - docker-compose
-        state: present
+          - docker-ce
+          - docker-ce-cli
+        state: absent
+        purge: yes
+      ignore_errors: yes
+    
+    - name: Clean and update apt cache
+      apt:
         update_cache: yes
+        autoclean: yes
+        autoremove: yes
 
     - name: Install prerequisites for Docker
       apt:
@@ -25,6 +33,14 @@
           - curl
           - software-properties-common
         state: present
+
+    - name: Install necessary packages
+      apt:
+        name: 
+          - git
+          - docker-compose  # Consider manual installation if you need a newer version
+        state: present
+        update_cache: yes
 
     - name: Add Docker’s official GPG key
       apt_key:
@@ -43,7 +59,6 @@
         state: latest
         update_cache: yes
 
-
     - name: Start Docker service
       systemd:
         name: docker
@@ -54,16 +69,17 @@
       git:
         repo: "{{ repo_url }}"
         dest: "{{ project_dir }}"
-        version: master  # Change to the master branch git
+        version: master
         force: yes
 
     - name: Build and start containers with Docker Compose
-      command: sudo docker compose up -d --build #docker-compose -f docker-compose.yaml up -d --build
+      command: docker-compose up -d --build  # Use docker-compose (with hyphen) if installed via apt
       args:
         chdir: "{{ project_dir }}"
 
     - name: Verify that containers are running
       command: docker ps
+
 
   #roles: 
   #  - frontend-deployment
