@@ -72,17 +72,18 @@
         version: master
         force: yes
 
-    - name: Build and start containers with Docker Compose
-      command: sudo docker compose up -d --build  # Use docker-compose (with hyphen) if installed via apt
-      args:
-        chdir: "{{ project_dir }}"
+  #  - name: Build and start containers with Docker Compose
+  #    command: sudo docker compose up -d --build  # Use docker-compose (with hyphen) if installed via apt
+  #    args:
+  #      chdir: "{{ project_dir }}"
 
-    - name: Verify that containers are running
-      command: docker ps
+  #  - name: Verify that containers are running
+  #    command: docker ps
 
 
-  #roles: 
-  #  - frontend-deployment
-  #  - setup-mongodb   
-  #  - backend-deployment
+  roles: 
+    - network-setup
+    - setup-mongodb  
+    - backend-deployment
+    - frontend-deployment
     

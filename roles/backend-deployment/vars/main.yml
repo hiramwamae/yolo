@@ -1,4 +1,9 @@
 ---
-container_name: hiram-yolo-backend
-network: app-net
-volume: app-mongo-data/app
+backend_image: "hiramwamae/hiram-yolo-backend:v1.0.2"
+backend_container_name: "hiram-yolo-backend"
+backend_port: "5000:5000"
+backend_build_path: "./backend"
+
+#container_name: hiram-yolo-backend
+#network: app-net
+#volume: app-mongo-data/app

@@ -1,14 +1,26 @@
 ---
-- name: Run MongoDB Container
+- name: Create MongoDB container with volume
   docker_container:
-    name: app-mongo
-    image: mongo
+    name: "{{ mongo_container_name }}"
+    image: "{{ mongo_image }}"
     ports:
-      - '27017:27017'
-    volumes:
-      - ./app-mongo-data:/data/db
+      - "{{ mongo_port }}"
     networks:
       - name: app-net
-  tags:
-    - database
-    - backend
+    volumes:
+      - "{{ mongo_data_volume }}:{{ mongo_data_path }}"
+
+
+#- name: Run MongoDB Container
+#  docker_container:
+#    name: app-mongo
+#    image: mongo
+#    ports:
+#      - '27017:27017'
+#    volumes:
+#      - ./app-mongo-data:/data/db
+#    networks:
+#      - name: app-net
+#  tags:
+#    - database
+#    - backend

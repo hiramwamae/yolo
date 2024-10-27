@@ -1,0 +1,5 @@
+---
+client_image: "hiramwamae/hiram-yolo-client:v1.0.2"
+client_container_name: "hiram-yolo-client"
+client_port: "3000:3000"
+client_build_path: "./client"

@@ -1,0 +1,15 @@
+---
+- name: Build frontend image and start container
+  docker_container:
+    name: "{{ client_container_name }}"
+    image: "{{ client_image }}"
+    build:
+      path: "{{ client_build_path }}"
+    ports:
+      - "{{ client_port }}"
+    networks:
+      - name: app-net
+    depends_on:
+      - hiram-yolo-backend
+    tty: true
+    stdin_open: true

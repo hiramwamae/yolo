@@ -1,4 +1,11 @@
 ---
-mongo_container_name: app_mongo
-mongo_network: app-network
-mongo_volume: app-mongo-data
+mongo_image: "mongo"
+mongo_container_name: "app-mongo"
+mongo_port: "27017:27017"
+mongo_data_volume: "app-mongo-data"
+mongo_data_path: "/data/db"
+
+
+#mongo_container_name: app_mongo
+#mongo_network: app-network
+#mongo_volume: app-mongo-data

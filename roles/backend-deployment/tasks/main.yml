@@ -1,16 +1,35 @@
 ---
-- name: Pull image from repository
-  docker_image:
-    name: hiramwamae/hiram-yolo-backend:v1.0.2 
-    source: pull
-
-- name: Create Node.js Backend Container
+- name: Build backend image and start container
   docker_container:
-    name: hiram-yolo-backend
-    image: hiramwamae/brian-yolo-backend:v1.0.2  
+    name: "{{ backend_container_name }}"
+    image: "{{ backend_image }}"
+    build:
+      path: "{{ backend_build_path }}"
+    ports:
+      - "{{ backend_port }}"
     networks:
       - name: app-net
-    ports:
-      - "5000:5000"
-    command: "npm start"
-  become: yes
+    depends_on:
+      - app-ip-mongo
+    tty: true
+    stdin_open: true
+    restart_policy: always
+
+
+
+#- name: Pull image from repository
+#  docker_image:
+#    name: hiramwamae/hiram-yolo-backend:v1.0.2 
+#    source: pull
+
+#- name: Create Node.js Backend Container
+ # docker_container:
+ #   name: hiram-yolo-backend
+ #   image: hiramwamae/brian-yolo-backend:v1.0.2  
+ #   networks:
+ #     - name: app-net
+ #   ports:
+   #   - "5000:5000"
+  #  command: "npm start"
+  #become: yes
+  
