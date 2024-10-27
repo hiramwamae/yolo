@@ -3,23 +3,24 @@
 
 - name: Build backend Docker image
   docker_image:
-    path: "{{ backend_build_path }}"
-    name: "{{ backend_image }}"
-    tag: "v1.0.2"  # Set your desired tag here
-    push: no  # Set to yes if you want to push to Docker Hub
+    path: "{{ backend_build_path }}"  # Ensure this variable points to the directory containing the Dockerfile
+    name: "{{ backend_image }}"        # The name of the image to be created
+    tag: "v1.0.2"                      # The tag for the image
+    push: no                           # Change to yes if you want to push to Docker Hub
   register: backend_image_result
 
 - name: Run backend container
   docker_container:
-    name: "{{ backend_container_name }}"
-    image: "{{ backend_image }}:v1.0.2"  # Ensure to include the tag
+    name: "{{ backend_container_name }}" 
+    image: "{{ backend_image }}:v1.0.2"  # Specify the image with its tag
     state: started
     restart_policy: always
-    published_ports: "{{ backend_ports }}"
+    published_ports: "{{ backend_ports }}"  # Ensure this variable is defined
     tty: true
     networks:
-      - name: "{{ backend_network }}"
+      - name: "{{ backend_network }}"      # Ensure this variable is defined
   when: backend_image_result.changed
+
 
 
 #- name: Pull image from repository
