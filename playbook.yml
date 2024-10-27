@@ -3,9 +3,9 @@
   hosts: all
   become: true
 
-   vars:
-    repo_url: "https://github.com/yourusername/hiramwamae/yolo.git"  # Replace with your Git repo URL
-    project_dir: "/home/vagrant/yolo.git"  # Replace with your desired directory
+  vars:
+    repo_url: "https://github.com/hiramwamae/yolo.git"  #Git clone URL
+    project_dir: "/home/vagrant/yolo"  # Project Directory in VM
 
   tasks:
     - name: Install necessary packages
@@ -27,7 +27,7 @@
       git:
         repo: "{{ repo_url }}"
         dest: "{{ project_dir }}"
-        version: master  # Change to the master branch 
+        version: master  # Change to the master branch git
         force: yes
   #roles: 
   #  - frontend-deployment
