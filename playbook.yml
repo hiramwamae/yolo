@@ -73,7 +73,7 @@
         force: yes
 
     - name: Build and start containers with Docker Compose
-      command: docker-compose up -d --build  # Use docker-compose (with hyphen) if installed via apt
+      command: sudo docker compose up -d --build  # Use docker-compose (with hyphen) if installed via apt
       args:
         chdir: "{{ project_dir }}"
 
