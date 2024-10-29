@@ -185,3 +185,5 @@ In the playbook roles was used as follows
 
 This sequential order ensures that the necessary environment, dependencies, and services are available before each dependent role executes. The modules used are primarily focused on Docker management to create, configure, and start containers for each component of the YOLO e-commerce application.
 
+## Terraform State file is located inside Stage_two directory
+
