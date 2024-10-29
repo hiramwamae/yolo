@@ -1,0 +1,3 @@
+
+repo_url: "https://github.com/hiramwamae/yolo.git"  # Git clone URL
+project_dir: "/home/vagrant/yolo"  # Project directory in VM

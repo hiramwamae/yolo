@@ -1,10 +1,9 @@
 ---
-# roles/frontend/vars/main.yml
-
-frontend_build_path: "./client"
-frontend_image: "hiramwamae/hiram-yolo-client"
+frontend_image: "hiramwamae/hiram-yolo-client:v1.0.2"
 frontend_container_name: "hiram-yolo-client"
 frontend_ports:
   - "3000:3000"
 frontend_network: "app-net"
+
+
 

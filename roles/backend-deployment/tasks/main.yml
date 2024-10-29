@@ -1,41 +1,18 @@
 ---
-# roles/backend/tasks/main.yml
-
-- name: Build backend Docker image
-  docker_image:
-    path: "{{ backend_build_path }}"
+- name: Pull backend image from Docker Hub
+  community.docker.docker_image:
     name: "{{ backend_image }}"
-    tag: "v1.0.2"
-  register: backend_image_result
+    source: pull
 
-- name: Run backend container
-  docker_container:
+- name: Create backend container
+  community.docker.docker_container:
     name: "{{ backend_container_name }}"
-    image: "{{ backend_image }}:v1.0.2"
-    state: started
-    restart_policy: always
-    published_ports: "{{ backend_ports }}"
-    tty: true
+    image: "{{ backend_image }}"
     networks:
       - name: "{{ backend_network }}"
-  when: backend_image_result.changed
+    published_ports: "{{ backend_ports }}"
+    restart_policy: always
+    command: "npm start"  
+  become: yes
 
 
-
-
-#- name: Pull image from repository
-#  docker_image:
-#    name: hiramwamae/hiram-yolo-backend:v1.0.2 
-#    source: pull
-
-#- name: Create Node.js Backend Container
- # docker_container:
- #   name: hiram-yolo-backend
- #   image: hiramwamae/brian-yolo-backend:v1.0.2  
- #   networks:
- #     - name: app-net
- #   ports:
-   #   - "5000:5000"
-  #  command: "npm start"
-  #become: yes
-  

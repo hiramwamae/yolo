@@ -1,8 +1,6 @@
 ---
-# roles/mongo/tasks/main.yml
-
 - name: Run MongoDB container
-  docker_container:
+  community.docker.docker_container:
     name: "{{ mongo_container_name }}"
     image: "{{ mongo_image }}"
     state: started
@@ -11,19 +9,6 @@
       - "{{ mongo_volume }}:/data/db"
     networks:
       - name: "{{ mongo_network }}"
+    command: "{{ mongo_command }}"
+  become: yes
 
-
-
-#- name: Run MongoDB Container
-#  docker_container:
-#    name: app-mongo
-#    image: mongo
-#    ports:
-#      - '27017:27017'
-#    volumes:
-#      - ./app-mongo-data:/data/db
-#    networks:
-#      - name: app-net
-#  tags:
-#    - database
-#    - backend

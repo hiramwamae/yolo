@@ -1,0 +1,77 @@
+---
+    - name: Install prerequisites for Docker
+      apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Install necessary packages
+      apt:
+        name: 
+          - git
+          - docker-compose  # Consider manual installation if you need a newer version
+        state: present
+        update_cache: yes
+
+    - name: Add Docker’s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+        filename: docker
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: yes
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Copy files to VM
+      copy:
+        src: .
+        dest: "{{ project_dir }}"
+    
+    - name: Change ownership of /home/vagrant/yolo directory
+      ansible.builtin.command:
+        cmd: chown -R vagrant:vagrant /home/vagrant/yolo
+      become: yes
+
+        
+    - name: Display current working directory
+      command: pwd
+      args:
+        chdir: /home/vagrant/yolo
+      register: pwd_output
+
+    - name: Print the current working directory
+      debug:
+        msg: "Current working directory on the target machine: {{ pwd_output.stdout }}"
+    
+    - name: Create Docker network for app
+      community.docker.docker_network:
+        name: app-net
+        driver: bridge
+        attachable: true
+        ipam_config:
+          - subnet: "172.20.0.0/16"  # Define your subnet
+            iprange: "172.20.0.0/16"   # Define your IP range
+        state: present
+
+    - name: Create Docker volume for MongoDB data
+      community.docker.docker_volume:
+        name: app-mongo-data
+        driver: local
+        state: present

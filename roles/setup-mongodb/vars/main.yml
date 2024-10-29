@@ -1,15 +1,9 @@
 ---
-# roles/mongo/vars/main.yml
-
 mongo_image: "mongo"
-mongo_container_name: "app-mongo"
+mongo_container_name: "app-ip-mongo"
 mongo_ports:
   - "27017:27017"
+mongo_volume: "app-mongo-data"
 mongo_network: "app-net"
-mongo_volume: "app-mongo-data"  # This should be defined in your docker-compose if needed
+mongo_command: "mongod --bind_ip_all"  # Ensures MongoDB is accessible to other containers on the network
 
-
-
-#mongo_container_name: app_mongo
-#mongo_network: app-network
-#mongo_volume: app-mongo-data
