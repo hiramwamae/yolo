@@ -39,10 +39,17 @@
         state: started
         enabled: yes
 
-    - name: Copy files to VM
-      copy:
-        src: .
+    - name: Clone Git repository
+      git:
+        repo: "{{ repo_url }}"
         dest: "{{ project_dir }}"
+        version: master
+        force: yes
+
+    #- name: Copy files to VM
+    #  copy:
+     #   src: .
+     #   dest: "{{ project_dir }}"
     
     - name: Change ownership of /home/vagrant/yolo directory
       ansible.builtin.command:

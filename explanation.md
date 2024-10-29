@@ -166,3 +166,22 @@ To achieve the task the following git workflow was used:
 14. Replace image.png
 
 
+## Ansible Implementation Explanation.
+In the playbook roles was used as follows
+
+  roles: 
+   - setup-environment
+   - setup-mongodb  
+   - backend-deployment
+   - frontend-deployment
+
+1. The preriquisites for docker were first installed in the new VM (geerlingguy/ubuntu2004).Docker installed and started. clone files from github , update directory permissions. Later working directory is confirmed before setting up the network and volume for data persistence.
+
+2. After network is setup the next role to be executed is the database.
+
+3. Backend which depends on the database is executed .
+
+4. Finally after network, database and backend configuration, frontend or client side is configured.
+
+This sequential order ensures that the necessary environment, dependencies, and services are available before each dependent role executes. The modules used are primarily focused on Docker management to create, configure, and start containers for each component of the YOLO e-commerce application.
+

@@ -8,3 +8,9 @@ vault.yml
 .vscode/*
 .vscode/*.json
 docker-compose.yml
+
+# Ignore all contents in the Stage_two folder
+/Stage_two/*
+
+# Except for terraform.tfstate
+!/Stage_two/terraform.tfstate
