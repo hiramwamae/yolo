@@ -29,10 +29,10 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy build artifacts from build stage to nginx html directory
-COPY --from=build-stage /client/build .
-COPY --from=build-stage /client/public .
-COPY --from=build-stage /client/src .
-COPY --from=build-stage /client/package*.json .
+COPY --from=build-stage /client/build ./build
+COPY --from=build-stage /client/public ./public
+COPY --from=build-stage /client/src ./src
+COPY --from=build-stage /client/package*.json ./
 
 # Expose port 80 (nginx default)
 EXPOSE 80
