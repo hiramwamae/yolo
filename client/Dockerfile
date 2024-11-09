@@ -20,24 +20,25 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:16-alpine3.16 as production-stage
+FROM nginx:alpine as production-stage
 
-WORKDIR /client
+# Set working directory inside the container
+WORKDIR /usr/share/nginx/html
 
-# Copy the build artifacts and the public directory from the build stage
-COPY --from=build-stage /client/build ./build
-COPY --from=build-stage /client/public ./public
-COPY --from=build-stage /client/src ./src
-COPY --from=build-stage /client/package*.json ./
+# Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
 
-# Install only production dependencies
-RUN npm install --only=production && npm prune --production && npm cache clean --force && rm -rf /tmp/*
+# Copy build artifacts from build stage to nginx html directory
+COPY --from=build-stage /client/build .
+COPY --from=build-stage /client/public .
+COPY --from=build-stage /client/src .
+COPY --from=build-stage /client/package*.json .
 
-# Set the environment variable for the app
-ENV NODE_ENV=production
+# Expose port 80 (nginx default)
+EXPOSE 80
 
-# Expose the port used by the app
-EXPOSE 3000
+# Start nginx to serve the React app
+CMD ["nginx", "-g", "daemon off;"]
 
-# Start the application
-CMD ["npm", "start"]
+
+
