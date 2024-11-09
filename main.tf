@@ -125,7 +125,7 @@ resource "kubernetes_deployment" "backend_deployment" {
         container {
           name  = "backend"
           image = "hiramwamae/hiram-yolo-backend:v1.0.2"
-          ports {
+          port {
             container_port = 5000
           }
           env {
