@@ -186,7 +186,7 @@ resource "kubernetes_deployment" "frontend_deployment" {
         container {
           name  = "frontend"
           image = "hiramwamae/hiram-yolo-client:v1.0.2"
-          ports {
+          port {
             container_port = 3000
           }
           env {
