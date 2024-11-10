@@ -77,7 +77,7 @@ class ProductControl extends Component {
         };
     }
     
-    componentDidMount(){
+    /*componentDidMount(){
         axios.get('http://backend-service:5000/api/products')
             .then(res =>{
                 console.log(res)
@@ -85,7 +85,21 @@ class ProductControl extends Component {
                     actualProductList: res.data
                 })
             })
+    }*/
+
+    componentDidMount() {
+        axios.get('http://backend-service:5000/api/products')
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    actualProductList: res.data
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching products:", error);
+            });
     }
+            
     handleEditProductClick = () =>{
         console.log('HandleEditClick reached!!')
         console.log(this.state.selectedProduct)
@@ -157,11 +171,28 @@ class ProductControl extends Component {
         //     console.log(pair[0]+ ', ' + pair[1]); 
         // }       
         // console.log(...formData)
+        /*
         axios.post('http://backend-service:5000/api/products', newProduct)
             .then(res => console.log(res.data))
         this.setState({
             formVisibleOnPage: false
-        })
+        })*/
+        console.log("Adding new product:", newProduct);
+        axios.post('http://backend-service:5000/api/products', newProduct)
+            .then(res => {
+                console.log("Product added:", res.data);
+                // Optionally, update the product list with the newly added product
+                this.setState(prevState => ({
+                    actualProductList: [...prevState.actualProductList, res.data]
+                }));
+            })
+            .catch(error => {
+                console.error("Error adding product:", error);
+            });
+        
+        this.setState({
+            formVisibleOnPage: false
+        });
     };
     handleDeletingProduct = (id) =>{
         axios.delete('http://backend-service:5000/api/products/'+id)
