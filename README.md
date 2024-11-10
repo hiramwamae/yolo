@@ -1,20 +1,13 @@
 # Overview
-This project involved the containerization and deployment of a full-stack yolo application using Docker.
+This project initially involved the containerization and deployment of a full-stack yolo application using Docker.
 
-
-# Requirements
-Install the docker engine here:
-- [Docker](https://docs.docker.com/engine/install/) 
-
-Follow the following instructions to install vagrant:
-- [Vagrant](https://cloudspinx.com/installation-of-vagrant-on-ubuntu/) 
-
-## How to run the app
-Use vagrant up --provison command
+The same project has now been updated and orchestrated using google cloud kubernetes (GKE)
 
 ## How to access the Page
+Frontend image was updated to use NGINX. (default port 80 was used)
+To access use the following url (loadbalancer external ip)
 
-http://localhost:3000/
+http://34.121.21.160/
 
 ## Home Page
 

@@ -88,7 +88,7 @@ class ProductControl extends Component {
     }*/
 
     componentDidMount() {
-        axios.get('http://backend-service:5000/api/products')
+        axios.get('http://34.44.148.123:5000/api/products')
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -178,7 +178,7 @@ class ProductControl extends Component {
             formVisibleOnPage: false
         })*/
         console.log("Adding new product:", newProduct);
-        axios.post('http://backend-service:5000/api/products', newProduct)
+        axios.post('http://34.44.148.123:5000/api/products', newProduct)
             .then(res => {
                 console.log("Product added:", res.data);
                 // Optionally, update the product list with the newly added product
@@ -195,7 +195,7 @@ class ProductControl extends Component {
         });
     };
     handleDeletingProduct = (id) =>{
-        axios.delete('http://backend-service:5000/api/products/'+id)
+        axios.delete('http://34.44.148.123:5000/api/products/'+id)
             .then(res => console.log(res.data))
             .catch((error) =>{
                 console.log(error)
@@ -215,7 +215,7 @@ class ProductControl extends Component {
     }
     handleEditingProduct = (editedProduct) =>{
 
-        axios.put('http://backend-service:5000/api/products/' + this.state.selectedProduct._id, editedProduct)
+        axios.put('http://34.44.148.123:5000/api/products/' + this.state.selectedProduct._id, editedProduct)
             .then(res =>console.log(res.data))
         
         this.setState({

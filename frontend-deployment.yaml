@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: hiramwamae/hiram-yolo-client:v1.0.6
+        image: hiramwamae/hiram-yolo-client:v1.0.7
         ports:
         - containerPort: 80 # point to port 80 since am now using NGINX on GKE
         env:
