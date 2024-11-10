@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -15,9 +15,13 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: hiramwamae/hiram-yolo-client:v1.0.2
+        image: hiramwamae/hiram-yolo-client:v1.0.4
         ports:
-        - containerPort: 3000
+        - containerPort: 80 # point to port 80 since am now using NGINX on GKE
+        env:
+        - name: BACKEND_API_URL
+          value: "http://backend-service:5000"  # Ensure the URL points to your backend service
+
 ---
 apiVersion: v1
 kind: Service
@@ -28,6 +32,6 @@ spec:
     app: frontend
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 80 #update from previous 3000 since am now using port 80 for NGINX
+      targetPort: 80
   type: LoadBalancer

@@ -7,8 +7,8 @@ const upload = multer();
 const productRoute = require('./routes/api/productRoute');
 
 // Connecting to the Database
-//let mongodb_url = 'mongodb://app-ip-mongo/';
-let mongodb_url = 'mongodb://mongodb-service:27017/';  // Using the Kubernetes service name instead of hardcoding an IP
+let mongodb_url = 'mongodb://app-ip-mongo/';
+//let mongodb_url = 'mongodb://mongodb-service:27017/';  // Using the Kubernetes service name instead of hardcoding an IP
 let dbName = 'yolomy';
 
 // define a url to connect to the database
