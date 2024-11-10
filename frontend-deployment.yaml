@@ -15,12 +15,15 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: hiramwamae/hiram-yolo-client:v1.0.7
+        image: hiramwamae/hiram-yolo-client:v1.0.8
         ports:
-        - containerPort: 80 # point to port 80 since am now using NGINX on GKE
+        - containerPort: 80
         env:
         - name: BACKEND_API_URL
-          value: "http://backend-service:5000"  # Ensure the URL points to your backend service
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-config  # Reference to the ConfigMap
+              key: BACKEND_API_URL   # Key within the ConfigMap
 
 ---
 apiVersion: v1

@@ -1,0 +1,7 @@
+#frontend-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  REACT_APP_BACKEND_API_URL: "http://34.44.148.123:5000" #use the external backend ip from here rather that directly on ProductControl.js which led to rebuilding frontend image

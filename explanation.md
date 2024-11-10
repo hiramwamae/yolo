@@ -15,6 +15,12 @@ Persistent storage was only used for MongoDB, ensuring data durability. The back
 
 LoadBalancer Service mainly applied for frontend which is to be exposed to the internet. LoadBalancer service assisted in provisioning an external IP address for access.
 
+## Execute in the following order
+
+1. kubectl apply -f mongodb-statefulset.yaml
+2. kubectl apply -f backend-deployment.yaml
+3. kubectl apply -f frontend-configmap.yaml
+4. kubectl apply -f frontend-deployment.yaml
 
 
 
